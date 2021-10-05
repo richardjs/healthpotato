@@ -6,7 +6,7 @@ class Data(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     timestamp = models.DateTimeField()
 
-    notes = models.TextField(default='')
+    notes = models.TextField(default='', blank=True)
 
     class Meta:
         abstract = True
