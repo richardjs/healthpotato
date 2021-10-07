@@ -5,12 +5,30 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from healthpotato.forms import WeightDataForm
+from healthpotato.forms import FoodDataForm, WeightDataForm
 
 
 @login_required
 def home(request):
     return render(request, 'healthpotato/home.html')
+
+
+@login_required
+def food(request):
+    if request.method == 'POST':
+        form = FoodDataForm(request.POST)
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.user = request.user
+            data.timestamp = datetime.now()
+            data.save()
+
+            return HttpResponseRedirect(reverse(home))
+
+    else:
+        form = FoodDataForm()
+
+    return render(request, 'healthpotato/food.html', locals())
 
 
 @login_required

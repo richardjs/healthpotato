@@ -1,7 +1,26 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from healthpotato.models import WeightData
+from healthpotato.models import FoodData, WeightData
+
+
+class FoodEntryTest(TestCase):
+    def setUp(self):
+        User.objects.create_user(
+           'testuser', 'testuser@example.com', 'password').save()
+        self.client.login(username='testuser', password='password')
+
+    def test_get_food_form(self):
+        response = self.client.get('/food')
+        self.assertTrue(b'nutrition' in response.content)
+        self.assertTrue(b'amount' in response.content)
+        self.assertTrue(b'submit' in response.content)
+
+    def test_log_food(self):
+        self.client.post('/food', {'nutrition': '1', 'amount': '5'})
+        self.assertEqual(len(FoodData.objects.all()), 1)
+        self.client.post('/food', {'nutrition': '5', 'amount': '3'})
+        self.assertEqual(len(FoodData.objects.all()), 2)
 
 
 class WeightEntryTest(TestCase):
