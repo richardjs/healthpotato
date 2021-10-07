@@ -1,9 +1,8 @@
-from datetime import datetime
-
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils import timezone
 
 from healthpotato.forms import FoodDataForm, WeightDataForm
 
@@ -20,7 +19,7 @@ def food(request):
         if form.is_valid():
             data = form.save(commit=False)
             data.user = request.user
-            data.timestamp = datetime.now()
+            data.timestamp = timezone.now()
             data.save()
 
             return HttpResponseRedirect(reverse(home))
@@ -38,7 +37,7 @@ def weight(request):
         if form.is_valid():
             data = form.save(commit=False)
             data.user = request.user
-            data.timestamp = datetime.now()
+            data.timestamp = timezone.now()
             data.save()
 
             return HttpResponseRedirect(reverse(home))
