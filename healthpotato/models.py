@@ -12,6 +12,21 @@ class Data(models.Model):
         abstract = True
 
 
+class FoodData(Data):
+    nutrition = models.IntegerField(choices=[
+        (x, x) for x in range(1, 6)
+    ])
+    amount = models.IntegerField(choices=[
+        (x, x) for x in range(1, 6)
+    ])
+
+    class Meta:
+        verbose_name_plural = 'Food data'
+
+    def __str__(self):
+        return f'food {self.user.username} {self.timestamp}'
+
+
 class WeightData(Data):
     weight = models.DecimalField(max_digits=5, decimal_places=1)
 
