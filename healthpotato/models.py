@@ -12,6 +12,25 @@ class Data(models.Model):
         abstract = True
 
 
+class ExerciseData(Data):
+    AEROBIC = 0
+    ANAEROBIC = 1
+
+    type = models.IntegerField(choices=[
+        (AEROBIC, 'Aerobic'),
+        (ANAEROBIC, 'Anaerobic'),
+    ])
+    effort = models.IntegerField(choices=[
+        (x, x) for x in range(1, 6)
+    ])
+
+    class Meta:
+        verbose_name_plural = 'Exercise data'
+
+    def __str__(self):
+        return f'exercise {self.user.username} {self.timestamp}'
+
+
 class FoodData(Data):
     nutrition = models.IntegerField(choices=[
         (x, x) for x in range(1, 6)
