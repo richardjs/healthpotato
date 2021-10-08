@@ -4,38 +4,40 @@ from django.test import TestCase
 from healthpotato.models import FoodData, WeightData
 
 
-class FoodEntryTest(TestCase):
-    def setUp(self):
-        User.objects.create_user(
-           'testuser', 'testuser@example.com', 'password').save()
-        self.client.login(username='testuser', password='password')
+# Putting abstract test classes under GenericTests keeps them from being run
+class GenericTests:
+    class DataEntryTest(TestCase):
+        def setUp(self):
+            User.objects.create_user(
+               'testuser', 'testuser@example.com', 'password').save()
+            self.client.login(username='testuser', password='password')
 
-    def test_get_food_form(self):
-        response = self.client.get('/food')
-        self.assertTrue(b'nutrition' in response.content)
-        self.assertTrue(b'amount' in response.content)
-        self.assertTrue(b'submit' in response.content)
+        def test_get_form(self):
+            response = self.client.get(self.path)
+            self.assertTrue(b'<form' in response.content)
+            self.assertTrue(b'submit' in response.content)
 
-    def test_log_food(self):
-        self.client.post('/food', {'nutrition': '1', 'amount': '5'})
-        self.assertEqual(len(FoodData.objects.all()), 1)
-        self.client.post('/food', {'nutrition': '5', 'amount': '3'})
-        self.assertEqual(len(FoodData.objects.all()), 2)
+        def test_enter_data(self):
+            self.client.post(self.path, self.entry)
+            self.assertEqual(len(self.model.objects.all()), 1)
+            self.client.post(self.path, self.entry)
+            self.assertEqual(len(self.model.objects.all()), 2)
+
+        def test_login_required(self):
+            response = self.client.get(self.path)
+            self.assertEqual(response.status_code, 200)
+            self.client.logout()
+            response = self.client.get(self.path)
+            self.assertNotEqual(response.status_code, 200)
 
 
-class WeightEntryTest(TestCase):
-    def setUp(self):
-        User.objects.create_user(
-           'testuser', 'testuser@example.com', 'password').save()
-        self.client.login(username='testuser', password='password')
+class FoodEntryTest(GenericTests.DataEntryTest):
+    model = FoodData
+    path = '/food'
+    entry = {'nutrition': '3', 'amount': '3'}
 
-    def test_get_weight_form(self):
-        response = self.client.get('/weight')
-        self.assertTrue(b'weight' in response.content)
-        self.assertTrue(b'submit' in response.content)
 
-    def test_log_weight(self):
-        self.client.post('/weight', {'weight': '150'})
-        self.assertEqual(len(WeightData.objects.all()), 1)
-        self.client.post('/weight', {'weight': '200'})
-        self.assertEqual(len(WeightData.objects.all()), 2)
+class WeightEntryTest(GenericTests.DataEntryTest):
+    model = WeightData
+    path = '/weight'
+    entry = {'weight': '150'}
