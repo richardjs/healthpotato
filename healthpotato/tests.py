@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from healthpotato.models import FoodData, WeightData
+from healthpotato.models import ExerciseData, FoodData, WeightData
 
 
 # Putting abstract test classes under GenericTests keeps them from being run
@@ -29,6 +29,12 @@ class GenericTests:
             self.client.logout()
             response = self.client.get(self.path)
             self.assertNotEqual(response.status_code, 200)
+
+
+class ExerciseEntryTest(GenericTests.DataEntryTest):
+    model = ExerciseData
+    path = '/exercise'
+    entry = {'type': '0', 'effort': '3'}
 
 
 class FoodEntryTest(GenericTests.DataEntryTest):
