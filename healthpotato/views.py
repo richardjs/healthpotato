@@ -15,7 +15,7 @@ def home(request):
 
 class ExerciseEntryView(LoginRequiredMixin, CreateView):
     model = ExerciseData
-    fields = ['type', 'effort', 'timestamp']
+    fields = ['type', 'effort', 'notes']
     success_url = reverse_lazy(home)
 
     def form_valid(self, form):
