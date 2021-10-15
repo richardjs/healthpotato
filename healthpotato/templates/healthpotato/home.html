@@ -4,8 +4,12 @@
 
 {% block 'body' %}
 
-<p><a href="{% url 'exercise-entry' %}">Enter exercise</a></p>
-<p><a href="{% url 'food-entry' %}">Enter food</a></p>
-<p><a href="{% url 'weight-entry' %}">Enter weight</a></p>
+<div class="d-grid gap-2 col-6 mx-auto">
+    <h1>🥔 Health Potato</h1>
+    <h2>Enter data</h2>
+    <a class="btn btn-light btn-lg" href="{% url 'exercise-entry' %}">Exercise ⚽</a>
+    <a class="btn btn-light btn-lg" href="{% url 'food-entry' %}">Food 🍎</a>
+    <a class="btn btn-light btn-lg" href="{% url 'weight-entry' %}">Weight ⚖️</a>
+</div>
 
 {% endblock %}

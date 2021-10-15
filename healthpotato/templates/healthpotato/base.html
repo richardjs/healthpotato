@@ -1,10 +1,16 @@
+{% load static %}
+
 <!doctype html>
 <html>
     <head>
         <title>Health Potato - {% block 'title' %}{% endblock %}</title>
-    </head>
+        <link rel="stylesheet" href="{% static 'healthpotato/css/bootstrap.min.css' %} ">
+        <link rel="stylesheet" href="{% static 'healthpotato/css/healthpotato.css' %} "> </head>
     <body>
-        {% block 'body' %}
-        {% endblock %}
+        <div class="container">
+            {% block 'body' %}{% endblock %}
+        </div>
+
+        <script src="{% static 'healthpotato/js/bootstrap.min.js' %}"></script>
     </body>
 </html>
