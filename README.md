@@ -1,1 +1,3 @@
-Health Potato aims to be a minimal health tracking app. It's currently very early work-in-progress.
+Health Potato aims to be a minimal health tracking app.
+
+Bascially functional for data entry, but not reporting. Now undergoing field testing.
