@@ -34,4 +34,4 @@ class FoodEntryView(EntryView):
 
 class WeightEntryView(EntryView):
     model = WeightData
-    fields = ['weight', 'notes', 'timestamp',]
+    fields = ['weight', 'clothing',  'notes', 'timestamp',]

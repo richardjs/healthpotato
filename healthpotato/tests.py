@@ -46,4 +46,4 @@ class FoodEntryTest(GenericTests.DataEntryTest):
 class WeightEntryTest(GenericTests.DataEntryTest):
     model = WeightData
     path = '/weight'
-    entry = {'weight': '150'}
+    entry = {'weight': '150', 'clothing': 1}

@@ -49,6 +49,12 @@ class FoodData(Data):
 
 class WeightData(Data):
     weight = models.DecimalField(max_digits=5, decimal_places=1)
+    clothing = models.IntegerField(choices=[
+        (0, 'None'),
+        (1, 'Light'),
+        (2, 'Medium'),
+        (3, 'Heavy'),
+    ], default=1)
 
     class Meta:
         verbose_name_plural = 'Weight data'
