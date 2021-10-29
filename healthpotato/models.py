@@ -1,10 +1,11 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 
 class Data(models.Model):   
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(default=timezone.now, blank=True)
 
     notes = models.TextField(default='', blank=True)
 

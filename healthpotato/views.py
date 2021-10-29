@@ -13,34 +13,25 @@ def home(request):
     return render(request, 'healthpotato/home.html')
 
 
-class ExerciseEntryView(LoginRequiredMixin, CreateView):
+class EntryView(LoginRequiredMixin, CreateView):
+    success_url = reverse_lazy(home)
+    initial = {'timestamp': timezone.now,}
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class ExerciseEntryView(EntryView):
     model = ExerciseData
-    fields = ['type', 'effort', 'notes']
-    success_url = reverse_lazy(home)
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        form.instance.timestamp = timezone.now()
-        return super().form_valid(form)
+    fields = ['type', 'effort', 'notes', 'timestamp',]
 
 
-class FoodEntryView(LoginRequiredMixin, CreateView):
+class FoodEntryView(EntryView):
     model = FoodData
-    fields = ['nutrition', 'amount', 'notes']
-    success_url = reverse_lazy(home)
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        form.instance.timestamp = timezone.now()
-        return super().form_valid(form)
+    fields = ['nutrition', 'amount', 'notes', 'timestamp',]
 
 
-class WeightEntryView(LoginRequiredMixin, CreateView):
+class WeightEntryView(EntryView):
     model = WeightData
-    fields = ['weight', 'notes']
-    success_url = reverse_lazy(home)
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        form.instance.timestamp = timezone.now()
-        return super().form_valid(form)
+    fields = ['weight', 'notes', 'timestamp',]
