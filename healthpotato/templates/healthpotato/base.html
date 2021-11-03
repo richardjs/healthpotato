@@ -11,6 +11,13 @@
         <link rel="stylesheet" href="{% static 'healthpotato/css/healthpotato.css' %} "> </head>
     <body>
         <div class="container">
+            {% if request.user.is_authenticated %}
+                <div class="user-info">
+                    {{ request.user }} |
+                    <a href="{% url 'logout' %}">log out</a>
+                </div>
+            {% endif %}
+
             {% block 'body' %}{% endblock %}
         </div>
 
