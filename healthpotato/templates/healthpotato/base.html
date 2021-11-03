@@ -12,9 +12,11 @@
     <body>
         <div class="container">
             {% if request.user.is_authenticated %}
-                <div class="user-info">
-                    {{ request.user }} |
-                    <a href="{% url 'logout' %}">log out</a>
+                <div class="position-relative">
+                    <div class="position-absolute top-0 end-0">
+                        {{ request.user }} |
+                        <a href="{% url 'logout' %}">log out</a>
+                    </div>
                 </div>
             {% endif %}
 
