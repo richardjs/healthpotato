@@ -10,7 +10,13 @@ from healthpotato.models import ExerciseData, FoodData, WeightData
 
 @login_required
 def home(request):
-    return render(request, 'healthpotato/home.html')
+    weight_data = WeightData.objects.filter(
+        user=request.user).order_by('-timestamp')
+
+    if not weight_data or weight_data[0].timestamp.date() != timezone.now().date():
+        weight_reminder = True
+
+    return render(request, 'healthpotato/home.html', locals())
 
 
 class EntryView(LoginRequiredMixin, CreateView):

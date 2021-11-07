@@ -6,7 +6,14 @@ from healthpotato.models import ExerciseData, FoodData, WeightData
 
 # Putting abstract test classes under GenericTests keeps them from being run
 class GenericTests:
-    class DataEntryTest(TestCase):
+    class UserTest(TestCase):
+        def setUp(self):
+            User.objects.create_user(
+               'testuser', 'testuser@example.com', 'password').save()
+            self.client.login(username='testuser', password='password')
+
+
+    class DataEntryTest(UserTest):
         def setUp(self):
             User.objects.create_user(
                'testuser', 'testuser@example.com', 'password').save()
@@ -29,6 +36,21 @@ class GenericTests:
             self.client.logout()
             response = self.client.get(self.path)
             self.assertNotEqual(response.status_code, 200)
+
+
+class HomeTest(GenericTests.UserTest):
+    def test_weight_reminder(self):
+        response = self.client.get('/')
+        self.assertTrue(b'You have not entered weight data for today' in response.content)
+
+        self.client.post('/weight', {'weight': '150', 'clothing': 1,
+            'timestamp': '1900-11-06T20:35:30' })
+        response = self.client.get('/')
+        self.assertTrue(b'You have not entered weight data for today' in response.content)
+
+        self.client.post('/weight', {'weight': '150', 'clothing': 1})
+        response = self.client.get('/')
+        self.assertFalse(b'You have not entered weight data for today' in response.content)
 
 
 class ExerciseEntryTest(GenericTests.DataEntryTest):

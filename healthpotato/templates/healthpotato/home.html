@@ -7,6 +7,9 @@
 <div class="d-grid gap-2">
     <h1>🥔 Health Potato</h1>
     <h2>Enter data</h2>
+    {% if weight_reminder %}
+        <div class="alert alert-primary">You have not entered weight data for today.</div>
+    {% endif %}
     <a class="btn btn-light btn-lg" href="{% url 'exercise-entry' %}">Exercise ⚽</a>
     <a class="btn btn-light btn-lg" href="{% url 'food-entry' %}">Food 🍎</a>
     <a class="btn btn-light btn-lg" href="{% url 'weight-entry' %}">Weight ⚖️</a>
