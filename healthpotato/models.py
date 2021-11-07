@@ -22,7 +22,7 @@ class ExerciseData(Data):
         (ANAEROBIC, 'Anaerobic'),
     ])
     effort = models.IntegerField(choices=[
-        (x, x) for x in range(1, 6)
+        (x, x) for x in range(1, 10)
     ])
 
     class Meta:
@@ -34,10 +34,10 @@ class ExerciseData(Data):
 
 class FoodData(Data):
     nutrition = models.IntegerField(choices=[
-        (x, x) for x in range(1, 6)
+        (x, x) for x in range(1, 10)
     ])
     amount = models.IntegerField(choices=[
-        (x, x) for x in range(1, 6)
+        (x, x) for x in range(1, 10)
     ])
 
     class Meta:
